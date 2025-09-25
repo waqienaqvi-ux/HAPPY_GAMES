@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAPPY_GAMES 3D Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top bar -->
+  <div id="topbar">
+    <span>Player: Guest</span>
+    <span>Coins: 0</span>
+    <button>Shop</button>
+    <button>Settings</button>
+  </div>
+
+  <!-- Friends panel -->
+  <div id="friendsPanel">
+    <h3>Friends</h3>
+    <ul id="friendsList">
+      <li>Friend1</li>
+      <li>Friend2</li>
+    </ul>
+  </div>
+
+  <!-- Chat panel -->
+  <div id="chatPanel">
+    <h3>Chat</h3>
+    <div id="chatMessages"></div>
+    <input type="text" id="chatInput" placeholder="Type a message...">
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <!-- Three.js scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
