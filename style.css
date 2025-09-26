@@ -1,23 +1,32 @@
 body {
   font-family: sans-serif;
   padding: 20px;
-  background: #f2f2f2;
+  background: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #333;
   color: white;
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
-#friendsPanel, #chatPanel, #avatarControls, #miniGames {
-  margin-top: 15px;
-  padding: 10px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+#controls {
+  margin-bottom: 10px;
+}
+
+input, select, button {
+  margin: 5px;
+  padding: 5px;
 }
 
 #hub {
@@ -25,6 +34,10 @@ body {
   flex-wrap: wrap;
   gap: 15px;
   margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 100px;
 }
 
 .player {
@@ -38,16 +51,38 @@ body {
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.player:hover {
+  transform: scale(1.1);
+}
+
+#chatPanel {
+  margin-top: 20px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+
+#chatMessages {
+  height: 120px;
+  overflow-y: scroll;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
 #log {
   margin-top: 20px;
   white-space: pre-line;
   border: 1px solid #ccc;
-  background: #fff;
   padding: 10px;
   height: 200px;
   overflow-y: scroll;
+  background: #fff;
+  border-radius: 8px;
 }
 
 .mini-game {
@@ -55,9 +90,6 @@ body {
   border: 1px solid #888;
   padding: 10px;
   background: #fff;
+  border-radius: 8px;
 }
 
-.game-button {
-  margin: 5px;
-  padding: 5px 10px;
-}
