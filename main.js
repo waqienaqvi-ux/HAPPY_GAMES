@@ -147,12 +147,13 @@ function launchMiniGameWithFriend() {
   hub.launchMiniGame("FruitCollector", friend || null);
 }
 
+// ✅ Chat system working
 function sendChat() {
   const input = document.getElementById("chatInput");
-  const msg = input.value.trim();
-  if (msg) {
-    hub.addChatMessage(`You: ${msg}`);
-    input.value = '';
+  const message = input.value.trim();
+  if (message) {
+    hub.addChatMessage(`You: ${message}`);
+    input.value = "";
   }
 }
 
@@ -163,5 +164,3 @@ function openShop() {
 function openSettings() {
   hub.log("Settings opened (not implemented yet).");
 }
-
-
