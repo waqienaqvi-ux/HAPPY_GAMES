@@ -3,27 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HAPPY_GAMES 3D Hub</title>
+  <title>Happy Games 3D Hub</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>🎮 Happy Games Hub</h1>
+
   <!-- Top bar -->
   <div id="topbar">
     <span id="playerName">Player: Guest</span>
     <span id="coins">Coins: 0</span>
-    <button>Shop</button>
-    <button>Settings</button>
+    <span id="xp">XP: 0</span>
+    <button onclick="openShop()">Shop</button>
+    <button onclick="openSettings()">Settings</button>
   </div>
 
-  <!-- Friends panel -->
-  <div id="friendsPanel">
-    <h3>Friends</h3>
-    <ul id="friendsList"></ul>
+  <!-- Controls -->
+  <div id="controls">
     <input type="text" id="friendName" placeholder="Friend name">
     <button onclick="addFriend()">Add Friend</button>
+    <br>
+
+    <select id="avatarShape">
+      <option value="cube">Cube</option>
+      <option value="sphere">Sphere</option>
+      <option value="cylinder">Cylinder</option>
+    </select>
+    <input type="text" id="avatarColor" placeholder="Avatar color (e.g., red, blue)">
+    <button onclick="changeAvatar()">Change Avatar</button>
+    <br>
+
+    <button onclick="launchMiniGame('FruitCollector')">Play FruitCollector</button>
+    <button onclick="launchMiniGame('CoinGrabber')">Play CoinGrabber</button>
+    <button onclick="launchMiniGameWithFriend()">Play with Friend</button>
   </div>
 
-  <!-- Chat panel -->
+  <!-- Hub Area -->
+  <div id="hub"></div>
+
+  <!-- Chat Panel -->
   <div id="chatPanel">
     <h3>Chat</h3>
     <div id="chatMessages"></div>
@@ -31,34 +49,11 @@
     <button onclick="sendChat()">Send</button>
   </div>
 
-  <!-- Avatar controls -->
-  <div id="avatarControls">
-    <h3>Avatar Customization</h3>
-    <select id="avatarShape">
-      <option value="cube">Cube</option>
-      <option value="sphere">Sphere</option>
-      <option value="cylinder">Cylinder</option>
-    </select>
-    <input type="text" id="avatarColor" placeholder="Color (e.g., red)">
-    <button onclick="changeAvatar()">Change Avatar</button>
-  </div>
-
-  <!-- Mini-games -->
-  <div id="miniGames">
-    <h3>Mini-Games</h3>
-    <button onclick="launchMiniGame('FruitCollector')">Play FruitCollector</button>
-    <button onclick="launchMiniGame('CoinGrabber')">Play CoinGrabber</button>
-    <button onclick="launchMiniGameWithFriend()">Play with Friend</button>
-  </div>
-
-  <!-- Hub Display -->
-  <div id="hub"></div>
+  <!-- Mini-game Area -->
+  <div id="miniGameArea" class="mini-game"></div>
 
   <!-- Log -->
   <div id="log"></div>
-
-  <!-- Game Area -->
-  <div id="miniGameArea" class="mini-game"></div>
 
   <script src="main.js"></script>
 </body>
