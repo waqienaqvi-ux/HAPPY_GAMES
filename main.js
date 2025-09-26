@@ -3,8 +3,10 @@ class HubSystem {
     this.player = player;
     this.friends = [];
     this.xp = 0;
+    this.coins = 0;
     this.miniGames = [];
     this.currentAvatar = { color: 'gray', shape: 'cube' };
+    this.updateUI();
     this.updateAvatarDisplay();
   }
 
@@ -14,28 +16,38 @@ class HubSystem {
       this.giveXP(100);
       this.log(`${friendName} added as a friend! XP: ${this.xp}`);
       this.updateAvatarDisplay();
+      this.addChatMessage(`System: ${friendName} joined as your friend!`);
     }
   }
 
-  giveXP(amount = 50) { this.xp += amount; }
+  giveXP(amount = 50) {
+    this.xp += amount;
+    this.updateUI();
+  }
 
-  registerMiniGame(game) { this.miniGames.push(game); }
+  giveCoins(amount = 10) {
+    this.coins += amount;
+    this.updateUI();
+  }
+
+  registerMiniGame(game) {
+    this.miniGames.push(game);
+  }
 
   launchMiniGame(gameName, friendName = null) {
     const game = this.miniGames.find(g => g.name === gameName);
-    const area = document.getElementById("miniGameArea");
-    area.innerHTML = '';
-    if(game) {
-      this.log(`Starting mini-game: ${game.name}`);
-      game.start(area, () => {
+    const gameArea = document.getElementById("miniGameArea");
+    if (game) {
+      this.log(`Launching mini-game: ${game.name}`);
+      gameArea.innerHTML = `<h3>${game.name}</h3><p>${game.description}</p>`;
+      game.start();
+      this.giveXP(50);
+      this.giveCoins(20);
+
+      if (friendName && this.friends.includes(friendName)) {
         this.giveXP(50);
-        if(friendName && this.friends.includes(friendName)) {
-          this.giveXP(50);
-          this.log(`Played with friend ${friendName}, bonus XP! Total XP: ${this.xp}`);
-        } else {
-          this.log(`XP after mini-game: ${this.xp}`);
-        }
-      });
+        this.log(`Played with ${friendName}, bonus XP! Total XP: ${this.xp}`);
+      }
     } else {
       this.log(`Mini-game ${gameName} not found`);
     }
@@ -51,7 +63,6 @@ class HubSystem {
     const hubDiv = document.getElementById("hub");
     hubDiv.innerHTML = '';
 
-    // Player avatar
     const pDiv = document.createElement('div');
     pDiv.className = 'player';
     pDiv.textContent = this.player.name;
@@ -59,7 +70,6 @@ class HubSystem {
     this.applyShape(pDiv, this.currentAvatar.shape);
     hubDiv.appendChild(pDiv);
 
-    // Friends avatars
     this.friends.forEach(f => {
       const fDiv = document.createElement('div');
       fDiv.className = 'player';
@@ -71,9 +81,21 @@ class HubSystem {
   }
 
   applyShape(div, shape) {
-    if(shape === 'sphere') div.style.borderRadius = '50%';
-    else if(shape === 'cylinder') div.style.borderRadius = '30% / 50%';
-    else div.style.borderRadius = '5px';
+    if (shape === 'sphere') {
+      div.style.borderRadius = '50%';
+    } else if (shape === 'cylinder') {
+      div.style.borderRadius = '30% / 50%';
+    } else {
+      div.style.borderRadius = '5px';
+    }
+  }
+
+  addChatMessage(message) {
+    const chatMessages = document.getElementById("chatMessages");
+    const msgDiv = document.createElement("div");
+    msgDiv.textContent = message;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
   log(message) {
@@ -81,35 +103,33 @@ class HubSystem {
     logDiv.textContent += message + "\n";
     logDiv.scrollTop = logDiv.scrollHeight;
   }
+
+  updateUI() {
+    document.getElementById("xp").textContent = `XP: ${this.xp}`;
+    document.getElementById("coins").textContent = `Coins: ${this.coins}`;
+  }
 }
 
-// ===== Setup =====
+// ===== Usage =====
 const player = { name: "Player1" };
 const hub = new HubSystem(player);
 
-// ===== Mini-Games =====
 hub.registerMiniGame({
   name: "FruitCollector",
-  start: function(area, onComplete) {
-    area.innerHTML = '<h3>FruitCollector</h3><button class="game-button">Collect Fruit!</button>';
-    const button = area.querySelector('button');
-    button.onclick = () => { hub.log("Fruit collected!"); onComplete(); };
-  }
+  description: "Collect as many fruits as you can!",
+  start: () => hub.log("FruitCollector started!")
 });
 
 hub.registerMiniGame({
   name: "CoinGrabber",
-  start: function(area, onComplete) {
-    area.innerHTML = '<h3>CoinGrabber</h3><button class="game-button">Grab Coin!</button>';
-    const button = area.querySelector('button');
-    button.onclick = () => { hub.log("Coin grabbed!"); onComplete(); };
-  }
+  description: "Grab coins before time runs out!",
+  start: () => hub.log("CoinGrabber started!")
 });
 
-// ===== Button functions =====
+// ===== Button Functions =====
 function addFriend() {
   const name = document.getElementById("friendName").value.trim();
-  if(name) hub.addFriend(name);
+  if (name) hub.addFriend(name);
 }
 
 function changeAvatar() {
@@ -118,23 +138,30 @@ function changeAvatar() {
   hub.changeAvatar(color, shape);
 }
 
-function launchMiniGame(gameName) { hub.launchMiniGame(gameName); }
+function launchMiniGame(gameName) {
+  hub.launchMiniGame(gameName);
+}
 
 function launchMiniGameWithFriend() {
   const friend = document.getElementById("friendName").value.trim();
-  const gameName = prompt("Enter mini-game name: FruitCollector or CoinGrabber");
-  if(gameName) hub.launchMiniGame(gameName, friend || null);
+  hub.launchMiniGame("FruitCollector", friend || null);
 }
 
 function sendChat() {
   const input = document.getElementById("chatInput");
   const msg = input.value.trim();
-  if(msg) {
-    const chatBox = document.getElementById("chatMessages");
-    const p = document.createElement("p");
-    p.textContent = `Player1: ${msg}`;
-    chatBox.appendChild(p);
+  if (msg) {
+    hub.addChatMessage(`You: ${msg}`);
     input.value = '';
-    chatBox.scrollTop = chatBox.scrollHeight;
   }
 }
+
+function openShop() {
+  hub.log("Shop opened (not implemented yet).");
+}
+
+function openSettings() {
+  hub.log("Settings opened (not implemented yet).");
+}
+
+
