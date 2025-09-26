@@ -1,91 +1,63 @@
 body {
-  margin: 0;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f2f2f2;
 }
 
-/* Top bar */
 #topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #222;
-  color: #fff;
+  background: #333;
+  color: white;
   padding: 10px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+#friendsPanel, #chatPanel, #avatarControls, #miniGames {
+  margin-top: 15px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#hub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.player {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  z-index: 10;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
 }
 
-#topbar button {
-  background-color: #555;
-  border: none;
+#log {
+  margin-top: 20px;
+  white-space: pre-line;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.mini-game {
+  margin-top: 20px;
+  border: 1px solid #888;
+  padding: 10px;
+  background: #fff;
+}
+
+.game-button {
+  margin: 5px;
   padding: 5px 10px;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-#topbar button:hover {
-  background-color: #777;
-}
-
-/* Friends panel (left) */
-#friendsPanel {
-  position: fixed;
-  top: 50px;
-  left: 10px;
-  width: 200px;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  max-height: 70%;
-  overflow-y: auto;
-}
-
-/* Chat panel (right) */
-#chatPanel {
-  position: fixed;
-  top: 50px;
-  right: 10px;
-  width: 250px;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  max-height: 70%;
-  display: flex;
-  flex-direction: column;
-}
-
-#chatMessages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 5px;
-  background-color: #222;
-  padding: 5px;
-  border-radius: 3px;
-}
-
-#chatInput {
-  padding: 5px;
-  margin-bottom: 5px;
-  border-radius: 3px;
-  border: none;
-}
-
-#sendBtn {
-  padding: 5px;
-  border: none;
-  border-radius: 3px;
-  background-color: #555;
-  color: #fff;
-  cursor: pointer;
-}
-
-#sendBtn:hover {
-  background-color: #777;
 }
