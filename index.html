@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Games 3D Hub</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Hub - Waqie Games</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>🎮 Happy Games Hub</h1>
-
-  <!-- Top bar -->
-  <div id="topbar">
-    <span id="playerName">Player: Guest</span>
-    <span id="coins">Coins: 0</span>
-    <span id="xp">XP: 0</span>
+<div class="header">
+  <h1>Waqie Game Hub</h1>
+  <div class="top-bar">
+    <span id="playerName">Player: Waqie</span>
+    <span id="currency">Coins: 0</span>
     <button onclick="openShop()">Shop</button>
+    <button onclick="openFriends()">Friends</button>
     <button onclick="openSettings()">Settings</button>
   </div>
+</div>
 
-  <!-- Controls -->
-  <div id="controls">
-    <input type="text" id="friendName" placeholder="Friend name">
-    <button onclick="addFriend()">Add Friend</button>
-    <br>
-
-    <select id="avatarShape">
-      <option value="cube">Cube</option>
-      <option value="sphere">Sphere</option>
-      <option value="cylinder">Cylinder</option>
-    </select>
-    <input type="text" id="avatarColor" placeholder="Avatar color (e.g., red, blue)">
-    <button onclick="changeAvatar()">Change Avatar</button>
-    <br>
-
-    <button onclick="launchMiniGame('FruitCollector')">Play FruitCollector</button>
-    <button onclick="launchMiniGame('CoinGrabber')">Play CoinGrabber</button>
-    <button onclick="launchMiniGameWithFriend()">Play with Friend</button>
+<div class="game-grid">
+  <div class="game-card" onclick="launchGame('plantsVsBrainrots')">
+    <h2>Plants vs Meme Brainrot</h2>
+    <p>Tycoon / Tower Defense</p>
   </div>
-
-  <!-- Hub Area -->
-  <div id="hub"></div>
-
-  <!-- Chat Panel -->
-  <div id="chatPanel">
-    <h3>Chat</h3>
-    <div id="chatMessages"></div>
-    <input type="text" id="chatInput" placeholder="Type a message...">
-    <button onclick="sendChat()">Send</button>
+  <div class="game-card" onclick="launchGame('growAGarden')">
+    <h2>Grow a Garden</h2>
+    <p>Farming / Gardening Simulator</p>
   </div>
+  <div class="game-card" onclick="launchGame('stealABrainrot')">
+    <h2>Steal a Brainrot</h2>
+    <p>Heist / Collection Game</p>
+  </div>
+  <div class="game-card" onclick="launchGame('ninetyNineNights')">
+    <h2>99 Nights in a Forest</h2>
+    <p>Survival / Adventure</p>
+  </div>
+</div>
 
-  <!-- Mini-game Area -->
-  <div id="miniGameArea" class="mini-game"></div>
+<div id="gameContainer"></div>
 
-  <!-- Log -->
-  <div id="log"></div>
+<!-- Friends Panel -->
+<div id="friendsContainer" style="display:none; background:#fff; padding:15px; border-radius:10px; margin:20px;">
+  <h2>Friends List</h2>
+  <input type="text" id="friendNameInput" placeholder="Enter friend name">
+  <button onclick="addFriend()">Add Friend</button>
+  <ul id="friendsList"></ul>
+</div>
 
-  <script src="main.js"></script>
+<!-- Shop Panel -->
+<div id="shopContainer" style="display:none; background:#fff; padding:15px; border-radius:10px; margin:20px;">
+  <h2>Shop - Free Items</h2>
+  <div class="shop-item"><button onclick="buyItem('Speed Boost')">Speed Boost (Free)</button></div>
+  <div class="shop-item"><button onclick="buyItem('Extra Plot')">Extra Plot (Free)</button></div>
+  <div class="shop-item"><button onclick="buyItem('Mystery Seed')">Mystery Seed (Free)</button></div>
+</div>
+
+<!-- Settings Panel -->
+<div id="settingsContainer" style="display:none; background:#fff; padding:15px; border-radius:10px; margin:20px;">
+  <h2>Settings</h2>
+  <button onclick="toggleSound()">Toggle Sound</button>
+  <button onclick="toggleAnimations()">Toggle Animations</button>
+</div>
+
+<script src="main.js"></script>
 </body>
 </html>
