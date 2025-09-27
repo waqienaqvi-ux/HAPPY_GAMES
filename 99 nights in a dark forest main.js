@@ -21,10 +21,7 @@ moonLight.position.set(10, 20, 10);
 scene.add(moonLight);
 
 // Ground
-const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(200, 200),
-    new THREE.MeshLambertMaterial({color:0x0b3d0b})
-);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshLambertMaterial({color:0x0b3d0b}));
 ground.rotation.x = -Math.PI/2;
 scene.add(ground);
 
@@ -54,52 +51,58 @@ player.add(torso,head,leftArm,rightArm,leftLeg,rightLeg);
 player.position.set(0,0,0);
 scene.add(player);
 
-// Kids
-const kids=[];
-for(let i=0;i<6;i++){
-    const kid=new THREE.Group();
-    const kTorso=new THREE.Mesh(new THREE.BoxGeometry(0.6,1,0.4), new THREE.MeshLambertMaterial({color:0xffff00}));
-    const kHead=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.5), new THREE.MeshLambertMaterial({color:0xffaaaa}));
-    kTorso.position.y=0.8; kHead.position.y=1.5;
-    kid.add(kTorso,kHead);
-    kid.position.set(Math.random()*30-15,0,Math.random()*30-15);
-    scene.add(kid); kids.push(kid);
-}
-
-// Enemies (simplified)
-function createWolf(x,z){ scene.add(new THREE.Mesh(new THREE.BoxGeometry(1,0.5,0.3), new THREE.MeshLambertMaterial({color:0x555555}))).position.set(x,0.25,z);}
-function createBear(x,z){ scene.add(new THREE.Mesh(new THREE.BoxGeometry(2,1,1), new THREE.MeshLambertMaterial({color:0x663300}))).position.set(x,0.5,z);}
-for(let i=0;i<5;i++){ createWolf(Math.random()*30-15,Math.random()*30-15); createBear(Math.random()*30-15,Math.random()*30-15); }
-
-// Dens
-function createDen(x,z,color){ const den=new THREE.Mesh(new THREE.BoxGeometry(3,2,3), new THREE.MeshLambertMaterial({color:color})); den.position.set(x,1,z); scene.add(den);}
-createDen(10,10,0xff0000); createDen(-10,15,0x00ffff); createDen(15,-10,0xffff00);
-
-// Movement
-const keys={};
-document.addEventListener('keydown',e=>keys[e.key]=true);
-document.addEventListener('keyup',e=>keys[e.key]=false);
-
-// Night system
-let night=1, dayMultiplier=1;
+// HUD and cutscene
 const cutsceneDiv=document.getElementById('cutscene');
 const cutsceneText=document.getElementById('cutsceneText');
 
+// Night system
+let night=1, dayMultiplier=1, gems=0, bedsPlaced=0, craftLevel=1;
+let currentClass="Novice";
+
+// Classes
+const classes = [];
+for(let i=1;i<=22;i++){
+    classes.push({name:"Class"+i, boost:i, cost:i*25});
+}
+const classSelect=document.getElementById('classSelect');
+classes.forEach(c=>{ const opt=document.createElement('option'); opt.value=c.name; opt.text=c.name+" ("+c.cost+" gems)"; classSelect.appendChild(opt); });
+
+// Update HUD
 function updateHUD(message=''){
     document.getElementById('night').textContent=night;
     document.getElementById('dayMultiplier').textContent=dayMultiplier;
-    document.getElementById('playerName').textContent="Player1";
-    document.getElementById('groupName').textContent="None";
-    document.getElementById('health').textContent="100";
-    document.getElementById('inventory').textContent="None";
-    document.getElementById('level').textContent="1";
-    document.getElementById('class').textContent="Novice";
+    document.getElementById('gems').textContent=gems;
+    document.getElementById('bedsPlaced').textContent=bedsPlaced;
+    document.getElementById('craftLevel').textContent=craftLevel;
+    document.getElementById('class').textContent=currentClass;
     document.getElementById('eventMessage').textContent=message;
 }
 updateHUD();
 
-// Lobby and night check
-function goToLobby(){ player.position.set(0,0,0); alert("You are in the lobby!"); cutsceneDiv.style.display="none";}
+// Crafting functions
+document.getElementById('craftBedBtn').addEventListener('click',()=>{
+    if(craftLevel>=1 && bedsPlaced<5){
+        bedsPlaced++; dayMultiplier++;
+        updateHUD("Bed crafted! Day multiplier +1");
+    }else{
+        updateHUD("Cannot craft more beds!");
+    }
+});
+document.getElementById('upgradeCraftBtn').addEventListener('click',()=>{
+    if(craftLevel<5){ craftLevel++; updateHUD("Crafting Machine upgraded to level "+craftLevel);}
+    else updateHUD("Crafting Machine at max level!");
+});
+
+// Class upgrade
+document.getElementById('upgradeClassBtn').addEventListener('click',()=>{
+    const selected = classSelect.value;
+    const cls = classes.find(c=>c.name===selected);
+    if(gems>=cls.cost){ gems-=cls.cost; currentClass=cls.name; updateHUD("Class upgraded to "+cls.name);}
+    else updateHUD("Not enough gems!");
+});
+
+// Lobby and night system
+function goToLobby(){ player.position.set(0,0,0); cutsceneDiv.style.display="none"; alert("You are in the lobby!"); }
 function checkNightCompletion(){
     if(night===99 || night%99===0){
         cutsceneDiv.style.display="flex";
@@ -110,4 +113,42 @@ function checkNightCompletion(){
         document.getElementById('lobbyBtnModal').addEventListener('click',()=>{ goToLobby(); });
     }
 }
-function nextNight(){
+
+// AI Creature spawning
+function spawnCreature(){
+    const type=Math.random()<0.5?"wolf":"bear";
+    const x=(Math.random()-0.5)*100; const z=(Math.random()-0.5)*100;
+    const color = type==="wolf"?0x555555:0x663300;
+    const size = type==="wolf"?[1,0.5,0.3]:[2,1,1];
+    const creature = new THREE.Mesh(new THREE.BoxGeometry(...size), new THREE.MeshLambertMaterial({color}));
+    creature.position.set(x,size[1]/2,z);
+    scene.add(creature);
+    // Remove after some time
+    setTimeout(()=>{ scene.remove(creature); }, 60000);
+}
+setInterval(spawnCreature,15000); // Spawn every 15s
+
+// Player movement
+const keys={};
+document.addEventListener('keydown',e=>keys[e.key]=true);
+document.addEventListener('keyup',e=>keys[e.key]=false);
+
+// Night progression
+function nextNight(){ night++; gems+=5; updateHUD("Night "+night+" begins"); checkNightCompletion(); }
+setInterval(nextNight,20000); // 20s per night
+
+// Animation loop
+function animate(){
+    requestAnimationFrame(animate);
+    const speed=0.2;
+    if(keys['w']) player.position.z-=speed;
+    if(keys['s']) player.position.z+=speed;
+    if(keys['a']) player.position.x-=speed;
+    if(keys['d']) player.position.x+=speed;
+
+    camera.position.lerp(new THREE.Vector3(player.position.x,player.position.y+5,player.position.z+10),0.1);
+    camera.lookAt(player.position);
+    controls.update();
+    renderer.render(scene,camera);
+}
+animate();
