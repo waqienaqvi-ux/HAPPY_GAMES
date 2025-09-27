@@ -9,10 +9,27 @@
 <body>
 <div id="hud">
     <div>Night: <span id="night">1</span>/99</div>
+    <div>Day Multiplier: <span id="dayMultiplier">1</span></div>
+    <div>Player: <span id="playerName">Player1</span></div>
+    <div>Group: <span id="groupName">None</span></div>
     <div>Health: <span id="health">100</span></div>
     <div>Inventory: <span id="inventory">None</span></div>
+    <div>Level: <span id="level">1</span></div>
+    <div>Class: <span id="class">Novice</span></div>
     <div id="eventMessage"></div>
 </div>
+
+<div id="cutscene" class="hidden">
+    <p id="cutsceneText">Somewhere deep in the forest...</p>
+    <button id="continueBtn">Continue</button>
+</div>
+
+<div id="groupPanel">
+    <input type="text" id="groupInput" placeholder="Enter group name">
+    <button id="createGroupBtn">Create Group</button>
+    <button id="joinGroupBtn">Join Group</button>
+</div>
+
 <canvas id="gameCanvas" width="800" height="500"></canvas>
 <script src="game.js"></script>
 </body>
