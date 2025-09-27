@@ -1,1 +1,19 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>99 Nights in a Dark Forest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="hud">
+    <div>Night: <span id="night">1</span>/99</div>
+    <div>Health: <span id="health">100</span></div>
+    <div>Inventory: <span id="inventory">None</span></div>
+    <div id="eventMessage"></div>
+</div>
+<canvas id="gameCanvas" width="800" height="500"></canvas>
+<script src="game.js"></script>
+</body>
+</html>
