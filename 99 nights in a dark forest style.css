@@ -7,20 +7,14 @@ body {
     overflow: hidden;
 }
 
-#gameCanvas {
-    display: block;
-    margin: 0 auto;
-    background: url('https://i.imgur.com/QWq9W1I.jpg') no-repeat center center;
-    background-size: cover;
-}
-
 #hud {
     position: absolute;
     top: 10px;
     left: 10px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     padding: 10px;
     border-radius: 5px;
+    z-index: 10;
 }
 
 #eventMessage {
@@ -44,20 +38,26 @@ body {
     font-size: 24px;
     text-align: center;
     display: none;
+    z-index: 20;
 }
 
-#groupPanel {
+#groupPanel, #craftingPanel, #classPanel {
     position: absolute;
     bottom: 10px;
     left: 10px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     padding: 10px;
     border-radius: 5px;
+    z-index: 10;
+    margin-top: 5px;
 }
-#groupPanel input {
+
+#groupPanel input, #classPanel select {
     padding: 5px;
     margin-right: 5px;
 }
-#groupPanel button {
+
+#groupPanel button, #craftingPanel button, #classPanel button {
     padding: 5px 10px;
+    margin-top: 2px;
 }
