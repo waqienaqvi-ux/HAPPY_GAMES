@@ -3,25 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>99 Nights in a Dark Forest</title>
+<title>99 Nights in a Dark Forest 3D</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="hud">
-    <div>Night: <span id="night">1</span>/99</div>
+    <div>Night: <span id="night">1</span></div>
     <div>Day Multiplier: <span id="dayMultiplier">1</span></div>
     <div>Player: <span id="playerName">Player1</span></div>
     <div>Group: <span id="groupName">None</span></div>
     <div>Health: <span id="health">100</span></div>
-    <div>Inventory: <span id="inventory">None</span></div>
-    <div>Level: <span id="level">1</span></div>
+    <div>Gems: <span id="gems">0</span></div>
+    <div>Beds Placed: <span id="bedsPlaced">0</span></div>
+    <div>Crafting Level: <span id="craftLevel">1</span></div>
     <div>Class: <span id="class">Novice</span></div>
-    <div id="eventMessage"></div>
+    <div>Event: <span id="eventMessage"></span></div>
 </div>
 
-<div id="cutscene" class="hidden">
+<div id="cutscene">
     <p id="cutsceneText">Somewhere deep in the forest...</p>
-    <button id="continueBtn">Continue</button>
 </div>
 
 <div id="groupPanel">
@@ -30,7 +30,19 @@
     <button id="joinGroupBtn">Join Group</button>
 </div>
 
-<canvas id="gameCanvas" width="800" height="500"></canvas>
+<div id="craftingPanel">
+    <button id="craftBedBtn">Craft Bed (+1 multiplier)</button>
+    <button id="upgradeCraftBtn">Upgrade Crafting Machine</button>
+</div>
+
+<div id="classPanel">
+    <select id="classSelect"></select>
+    <button id="upgradeClassBtn">Upgrade Class</button>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.157.0/examples/js/controls/OrbitControls.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
